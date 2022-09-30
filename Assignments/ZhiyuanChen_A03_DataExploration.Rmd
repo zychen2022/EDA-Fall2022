@@ -72,7 +72,7 @@ most_common_effects <- summary(Neonics.Data$Effect,2)
 most_common_effects
 ```
 
-> Answer: The most common effects that are studied are population(1803) and mortality(1493). These effects can indicate the impacts of neonicotinoids, such as causing death of bees and other beneficial insects.
+> Answer: The most common effects that are studied are population(1803). These effects can indicate the impacts of neonicotinoids, such as causing death of bees and other beneficial insects.
 
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.
 
@@ -132,6 +132,7 @@ Lowest-observable-effect-level(LOEL): lowest dose (concentration) producing effe
 ```{r}
 class(Litter.Data$collectDate)
 Litter.Data$collectDate <- as.Date(Litter.Data$collectDate)
+class(Litter.Data$collectDate)
 unique(Litter.Data$collectDate)
 ```
 
@@ -142,13 +143,13 @@ unique(Litter.Data$plotID)
 summary(Litter.Data$plotID)
 ```
 
-> Answer: THe `unique` function just shows the IDs of plots. But the `summary` function shows how many times a plot were sampled in addition to the IDs, for example NIWO_040 has 20 records.
+> Answer: THe `unique` function just shows 12 levels of plots. But the `summary` function shows how many times a plot were sampled in addition to the 12 levels or IDs, for example NIWO_040 has 20 records.
 
 14. Create a bar graph of functionalGroup counts. This shows you what type of litter is collected at the Niwot Ridge sites. Notice that litter types are fairly equally distributed across the Niwot Ridge sites.
 
 ```{r, fig.height = 6, fig.width = 8}
 ggplot(Litter.Data) +
-  geom_bar(aes(x = functionalGroup), bins = 30)
+  geom_bar(aes(x = functionalGroup))
 ```
 
 15. Using `geom_boxplot` and `geom_violin`, create a boxplot and a violin plot of dryMass by functionalGroup.
@@ -163,7 +164,7 @@ ggplot(Litter.Data) +
 
 Why is the boxplot a more effective visualization option than the violin plot in this case?
 
-> Answer: Because the data like Needles is too dispersive, while the data like seeds is too concentrative.
+> Answer: Because the data like Needles is too dispersive, while the data like seeds is too concentrative. So using the violin plot, in this case, cannot show more characteristics of the distribution pattern than the boxplot.
 
 What type(s) of litter tend to have the highest biomass at these sites?
 
