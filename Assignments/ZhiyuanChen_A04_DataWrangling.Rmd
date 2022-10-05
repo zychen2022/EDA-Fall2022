@@ -5,13 +5,6 @@ output: pdf_document
 geometry: margin=2.54cm
 ---
 
-```{r setup, include=FALSE}
-#This code chunk will tidy your knit PDF files, wrapping long code lines
-#For it to work, the "formatR" package needs to be installed
-
-#install.packages('formatR')
-knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
-```
 
 ## OVERVIEW
 
@@ -29,19 +22,17 @@ The completed exercise is due on Friday, Oct7th @ 5:00pm.
 ## Set up your session 
 1. Check your working directory, load the `tidyverse` and `lubridate` packages, and upload all four raw data files associated with the EPA Air dataset, being sure to set string columns to be read in a factors. See the README file for the EPA air datasets for more information (especially if you have not worked with air quality data previously). 
 
-```{r setup, include=FALSE}
-#This code chunk will tidy your knit PDF files, wrapping long code lines
-#For it to work, the "formatR" package needs to be installed
 
-#install.packages('formatR')
-knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
-```
 
 2. Explore the dimensions, column names, and structure of the datasets. 
+
 
 ```{r, message = FALSE}
 #1
 getwd()
+#install.packages("formatR")
+#library(formatR)
+#knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
 #install.packages("tidyverse")
 library(tidyverse)
 #install.packages("lubridate")
@@ -83,8 +74,6 @@ EPAair_03_2018$Date <- as.Date(EPAair_03_2018$Date, format = "%m/%d/%Y")
 EPAair_o3_2019$Date <- as.Date(EPAair_o3_2019$Date, format = "%m/%d/%Y")
 EPAair_pm25_2018$Date <- as.Date(EPAair_pm25_2018$Date, format = "%m/%d/%Y")
 EPAair_pm25_2019$Date <- as.Date(EPAair_pm25_2019$Date, format = "%m/%d/%Y")
-EPAair_03_2018
-EPAair_o3_2019
 class(EPAair_03_2018$Date)
 #4
 EPAair_O3_NC2018_processed <-
@@ -103,10 +92,14 @@ EPAair_PM25_NC2019_processed <-
   select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY:SITE_LONGITUDE) %>%
   mutate(AQS_PARAMETER_DESC = "PM2.5")
 #6
-write.csv(EPAair_O3_NC2018_processed, row.names = FALSE, file = "./Data/Processed/EPAair_O3_NC2018_processed.csv")
-write.csv(EPAair_O3_NC2019_processed, row.names = FALSE, file = "./Data/Processed/EPAair_O3_NC2019_processed.csv")
-write.csv(EPAair_PM25_NC2018_processed, row.names = FALSE, file = "./Data/Processed/EPAair_PM25_NC2018_processed.csv")
-write.csv(EPAair_PM25_NC2019_processed, row.names = FALSE, file = "./Data/Processed/EPAair_PM25_NC2019_processed.csv")
+write.csv(EPAair_O3_NC2018_processed, row.names = FALSE,
+          file = "./Data/Processed/EPAair_O3_NC2018_processed.csv")
+write.csv(EPAair_O3_NC2019_processed, row.names = FALSE,
+          file = "./Data/Processed/EPAair_O3_NC2019_processed.csv")
+write.csv(EPAair_PM25_NC2018_processed, row.names = FALSE,
+          file = "./Data/Processed/EPAair_PM25_NC2018_processed.csv")
+write.csv(EPAair_PM25_NC2019_processed, row.names = FALSE,
+          file = "./Data/Processed/EPAair_PM25_NC2019_processed.csv")
 ```
 
 
@@ -129,21 +122,26 @@ write.csv(EPAair_PM25_NC2019_processed, row.names = FALSE, file = "./Data/Proces
 #colnames(EPAair_PM25_NC2018_processed)
 #colnames(EPAair_O3_NC2019_processed)
 #colnames(EPAair_O3_NC2018_processed)
-EPAair_o3_pm25 <- rbind(EPAair_PM25_NC2019_processed,EPAair_PM25_NC2018_processed,EPAair_O3_NC2019_processed,EPAair_O3_NC2018_processed)
-EPAair_o3_pm25
+EPAair_o3_pm25 <- rbind(EPAair_PM25_NC2019_processed,EPAair_PM25_NC2018_processed,
+                        EPAair_O3_NC2019_processed,EPAair_O3_NC2018_processed)
+#EPAair_o3_pm25
 #8
 EPAair_o3pm25_NC1819_processed <-
   EPAair_o3_pm25 %>%
-  filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", "Millbrook School")) %>%
+  filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue",
+                          "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain",
+                          "West Johnston Co.", "Garinger High School", "Castle Hayne",
+                          "Pitt Agri. Center", "Bryson City", "Millbrook School")) %>%
   group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
   dplyr::summarise(mean_AQI = mean(DAILY_AQI_VALUE),
             mean_latitude = mean(SITE_LATITUDE),
             mean_longitude = mean(SITE_LONGITUDE)) %>%
   mutate(month = month(Date)) %>%
   mutate(year = year(Date))
-  
+dim(EPAair_o3pm25_NC1819_processed)
 #9
-EPAair_o3pm25_NC1819_processed_spread <- spread(EPAair_o3pm25_NC1819_processed, AQS_PARAMETER_DESC, mean_AQI)
+EPAair_o3pm25_NC1819_processed_spread <- spread(EPAair_o3pm25_NC1819_processed,
+                                                AQS_PARAMETER_DESC, mean_AQI)
 #10
 dim(EPAair_o3pm25_NC1819_processed_spread)
 #11
