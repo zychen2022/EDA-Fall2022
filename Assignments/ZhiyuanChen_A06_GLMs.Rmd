@@ -83,6 +83,8 @@ Lakeplot.Ex1 <-
   ggplot(NTL_LTER_subset, aes(x=depth, y=temperature_C))+
   geom_point()+
   ylim(0, 35)+
+  ylab(expression("temperature_C"*"(°"*"C)"))+
+  xlab(expression("depth"*"(m)"))+
   geom_smooth(method = 'lm',se = FALSE, color = "black")
 print(Lakeplot.Ex1)
 
@@ -173,6 +175,8 @@ Lakeplot.Ex2 <-
              y=temperature_C))+
   geom_point(aes(color=lakename), alpha = 0.5)+
   ylim(0, 35)+
+  ylab(expression("temperature_C"*"(°"*"C)"))+
+  xlab(expression("depth"*"(m)"))+
   geom_smooth(aes(color=lakename),method = 'lm',se = FALSE)
 print(Lakeplot.Ex2)
 
